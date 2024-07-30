@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOĞUM GÜNÜN KUTLU OLSUN EDA</title>
+    <link rel="stylesheet" href="c:\Users\Berk\Pictures\party-popper-emoji-2012x2048-lhq1rf8v.png">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #424471;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 500px; /* Çerçeve genişliğini ve yüksekliğini ayarla */
+            height: 500px;
+        }
+
+        .card {
+            background-color: rgb(203, 197, 235);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .heart {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            background: red;
+            transform: rotate(-45deg);
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            width: 120px;
+            height: 120px;
+            background: red;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart::before {
+            top: -60px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 60px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #5855d4;
+            margin-top: 35px;
+        }
+
+        p {
+            font-size: 28px;
+            color: #5855d4;
+            margin-top: 10px;
+        }
+
+        .small-heart {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            background: red;
+            animation: float 1.5s ease-in-out infinite;
+            transform: rotate(-45deg);
+        }
+
+        .small-heart::before,
+        .small-heart::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            background: red;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .small-heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .small-heart::after {
+            top: 0;
+            left: 10px;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(-45deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) scale(1.5) rotate(-45deg);
+            }
+        }
+
+        .star {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgb(75, 75, 221);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="heart" onclick="createSmallHearts(event)"></div>
+            <h1>EDA</h1>
+            <p>SENİ ÇOK SEVİYOM</p>
+        </div>
+    </div>
+
+    <script>
+        function createSmallHearts(event) {
+            const card = document.querySelector('.card');
+            const rect = card.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            for (let i = 0; i < 30; i++) {
+                const smallHeart = document.createElement('div');
+                smallHeart.className = 'small-heart';
+                smallHeart.style.left = `${x - 10}px`;
+                smallHeart.style.top = `${y - 10}px`;
+                card.appendChild(smallHeart);
+
+                setTimeout(() => {
+                    smallHeart.remove();
+                }, 1500);
+            }
+        }
+
+        function createStars() {
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            const card = document.querySelector('.card');
+            const cardRect = card.getBoundingClientRect();
+
+            const padding = 30; // Çerçevenin kenarlarından boşluk
+            const starSize = 30; // Yıldızların boyutu
+            const numStarsX = Math.floor((containerRect.width - 2 * padding) / starSize);
+            const numStarsY = Math.floor((containerRect.height - 2 * padding) / starSize);
+
+            // Yıldızları kenarlara yerleştirme
+            let stars = [];
+
+            // Üst ve alt kenarlara yıldızlar
+            for (let i = 0; i < numStarsX; i++) {
+                stars.push({ left: padding + i * starSize, top: padding }); // Üst kenar
+                stars.push({ left: padding + i * starSize, top: containerRect.height - padding - starSize }); // Alt kenar
+            }
+
+            // Sol ve sağ kenarlara yıldızlar
+            for (let i = 1; i < numStarsY - 1; i++) {
+                stars.push({ left: padding, top: padding + i * starSize }); // Sol kenar
+                stars.push({ left: containerRect.width - padding - starSize, top: padding + i * starSize }); // Sağ kenar
+            }
+
+            stars.forEach(({ left, top }) => {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${left}px`;
+                star.style.top = `${top}px`;
+                container.appendChild(star);
+            });
+        }
+
+        window.onload = createStars;
+    </script>
+</body>
+</html>
